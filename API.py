@@ -21,18 +21,18 @@ def get_db_connection():
         database= db_name   
     )
 
-@app.route('/Parcelas', methods=['GET'])
+@app.route('/parcelas', methods=['GET'])
 def listar_Parcelas():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True) 
     
     cursor.execute("SELECT * FROM Parcelas")
-    Parcelas = cursor.fetchall()
+    parcelas = cursor.fetchall()
     
     cursor.close()
     conn.close()
     
-    return jsonify(Parcelas) 
+    return jsonify(parcelas) 
 
 if __name__ == '__main__':
     app.run(debug=True)
