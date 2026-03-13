@@ -1,0 +1,13 @@
+@if(parcela!=null && parcela!=undefined){
+    <td>{{ parcela.ID }}</td>
+    <td>{{ parcela.MesVencimento }}</td>
+    <td>{{ parcela.NumeroParcela }}</td>
+    <td>{{ parcela.ProjecaoValor }}</td>
+    <td>{{ parcela.ValorPago | currency:'BRL' }}</td>
+    <td>{{ parcela.DataPagamento | date:'dd/MM/yyyy' }}</td>
+    <td> 
+       <div class="status-badge" [ngClass]="parcela.Situacao | lowercase">
+            {{ parcela.Situacao }}
+        </div>
+    </td>
+}

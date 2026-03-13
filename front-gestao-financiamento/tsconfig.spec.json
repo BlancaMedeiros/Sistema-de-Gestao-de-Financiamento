@@ -11,5 +11,5 @@
   "include": [
     "src/**/*.d.ts",
     "src/**/*.spec.ts"
-  ]
+, "src/app/components/tabela-parcelas/tabela-parcelas.spec.component.ts"  ]
 }

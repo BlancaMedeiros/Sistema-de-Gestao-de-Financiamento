@@ -1,0 +1,38 @@
+body {
+    font-family: sans-serif;
+    background-color: #f4f7f6;
+    padding: 20px;
+}
+
+table.tabela-parcelas {
+    width: 100%;
+    border-collapse: collapse; /* Essencial para tabelas limpas */
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden; /* Garante que o radius funcione nas pontas da tabela */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+table.tabela-parcelas thead th {
+    background-color: #f1f1f1; /* Cor de fundo do cabeçalho */
+    color: #333;
+    text-align: left;
+    padding: 15px;
+    font-weight: 600;
+}
+
+
+
+/* ----------------------------------------------------------- */
+/* O SEGREDO DA ZEBRA ESTÁ AQUI:                              */
+/* Aplica cor de fundo apenas nas linhas PARES (even) do tbody */
+/* ----------------------------------------------------------- */
+table.tabela-parcelas tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Um cinza extremamente sutil */
+}
+
+/* Opcional: Efeito de hover para destacar a linha inteira */
+table.tabela-parcelas tbody tr:hover {
+    background-color: #f1f7ff; /* Um azul bem claro no hover */
+}
+

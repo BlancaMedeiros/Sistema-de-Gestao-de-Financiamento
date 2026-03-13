@@ -1,0 +1,25 @@
+
+<table class="tabela-parcelas">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mês de vencimento</th>
+            <th>Número da parcela</th>
+            <th>Projeção do valor</th>
+            <th>Valor pago</th>
+            <th>Data do pagamento</th>
+            <th>Situação da parcela</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(parcela of parcelas; track parcela){
+            <tr app-parcela [parcela]="parcela">
+            </tr>
+        }   
+        <!-- @empty {
+            <tr>
+                <td colspan="7">Nenhuma parcela encontrada.</td>
+            </tr>
+        } -->
+    </tbody>
+</table>

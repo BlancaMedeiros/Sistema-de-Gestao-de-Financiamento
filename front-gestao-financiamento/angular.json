@@ -9,7 +9,13 @@
   "projects": {
     "front-gestao-financiamento": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "displayBlock": true,
+          "inlineStyle": false,
+          "inlineTemplate": false
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
