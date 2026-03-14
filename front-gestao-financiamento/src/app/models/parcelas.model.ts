@@ -6,5 +6,4 @@ export interface ParcelasModel {
     ProjecaoValor: number;
     Situacao: string;
     ValorPago: number;
-
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ParcelasService } from '../../parcelas-service';
 import { ParcelasModel } from '../../models/parcelas.model';
 import { CommonModule } from '@angular/common'; // Importe o CommonModule
@@ -15,12 +15,13 @@ import { ParcelaComponent } from '../parcela/parcela.component';
 export class TabelaParcelasComponent implements OnInit {
   parcelas: ParcelasModel[] = [];
 
-  constructor(private service: ParcelasService) {}
+  constructor(private service: ParcelasService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.service.retornaParcelas().subscribe(parcelas=>{
       this.parcelas = parcelas
       console.log(this.parcelas)
+      this.cdr.detectChanges()
     })
   }
 }

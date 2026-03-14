@@ -1,0 +1,66 @@
+.resumo-financeiro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 24px;
+  flex-wrap: nowrap;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  width: -webkit-fill-available;
+}
+
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  font-size: 20px;
+  box-sizing: border-box;
+}
+
+
+.total { background-color: #f0f7ff; }      
+.pago { background-color: #e6fffa; }       
+.saldo { background-color: #fff5f5; }      
+.vencimento { background-color: #fef7e0; } 
+
+.card-info span {
+  display: block;
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.card-info strong {
+  font-size: 18px;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+.grid {
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+}
+
+.grafico {
+  min-width: 300px;
+  width: unset !important;
+}
