@@ -34,5 +34,39 @@ def listar_Parcelas():
     
     return jsonify(parcelas) 
 
+
+@app.route('/resumo', methods=['GET'])
+def obter_resumo():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True) 
+    
+    query = """
+    SELECT 
+        SUM(ProjecaoValor) as total_financiado,
+        SUM(CASE WHEN Situacao = 'paga' THEN ProjecaoValor ELSE 0 END) as valor_pago,
+        MIN(CASE WHEN Situacao = 'pendente' THEN DataPagamento END) as proximo_vencimento
+    FROM Parcelas
+    """
+    
+    cursor.execute(query)
+    resultado = cursor.fetchone()
+    
+    total = float(resultado['total_financiado'] or 0)
+    pago = float(resultado['valor_pago'] or 0)
+    saldo_restante = total - pago
+    porcentagem_paga = (pago / total * 100) if total > 0 else 0
+
+    resumo = {
+        "total": total,
+        "pago": pago,
+        "saldo": saldo_restante,
+        "proximo_vencimento": str(resultado['proximo_vencimento']) if resultado['proximo_vencimento'] else "Nenhum",
+        "porcentagem_paga": round(porcentagem_paga, 2)
+    }
+    
+    cursor.close()
+    conn.close()
+    return jsonify(resumo)
+
 if __name__ == '__main__':
     app.run(debug=True)
