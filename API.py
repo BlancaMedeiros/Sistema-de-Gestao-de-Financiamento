@@ -44,7 +44,7 @@ def obter_resumo():
     SELECT 
         SUM(ProjecaoValor) as total_financiado,
         SUM(CASE WHEN Situacao = 'paga' THEN ProjecaoValor ELSE 0 END) as valor_pago,
-        MIN(CASE WHEN Situacao = 'pendente' THEN DataPagamento END) as proximo_vencimento
+        MIN(CASE WHEN Situacao = 'pendente' THEN MesVencimento END) as proximo_vencimento
     FROM Parcelas
     """
     
