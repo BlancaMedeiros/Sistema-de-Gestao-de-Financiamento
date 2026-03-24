@@ -21,8 +21,6 @@ table.tabela-parcelas thead th {
     font-weight: 600;
 }
 
-
-
 /* ----------------------------------------------------------- */
 /* O SEGREDO DA ZEBRA ESTÁ AQUI:                              */
 /* Aplica cor de fundo apenas nas linhas PARES (even) do tbody */
@@ -36,3 +34,28 @@ table.tabela-parcelas tbody tr:hover {
     background-color: #f1f7ff; /* Um azul bem claro no hover */
 }
 
+.filtros-container {
+  display: flex;
+  justify-content: flex-end; /* Alinha à direita */
+  gap: 10px;
+  padding: 0 10px;
+  height: 1px;
+}
+
+.input-busca, .select-filtro {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input-busca:focus {
+  border-color: #089181;
+}
+
+.desloca {
+    position: relative;
+    height: max-content;
+    top: -60px;
+}

@@ -1,3 +1,24 @@
+<div class="filtros-container">
+  <input 
+    type="text" 
+    placeholder="Nº da parcela..." 
+    (input)="aplicarFiltros($event, 'numero')"
+    class="input-busca desloca"
+  >
+
+  <select (change)="aplicarFiltros($event, 'status')" class="select-filtro desloca">
+    <option value="">Todos os Status</option>
+    <option value="paga">Pagas</option>
+    <option value="pendente">Pendentes</option>
+  </select>
+
+  <select (change)="aplicarFiltros($event, 'data')" class="select-filtro desloca">
+    <option value="">Todos os meses</option>
+    <option *ngFor="let data of datasDisponiveis" [value]="data">
+      {{ data }}
+    </option>
+  </select>
+</div>
 
 <table class="tabela-parcelas">
     <thead>
@@ -12,7 +33,7 @@
         </tr>
     </thead>
     <tbody>
-        @for(parcela of parcelas; track parcela){
+        @for(parcela of parcelasFiltradas; track parcela.ID){
             <tr app-parcela [parcela]="parcela">
             </tr>
         }   
