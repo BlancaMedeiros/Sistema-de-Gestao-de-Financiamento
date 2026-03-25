@@ -6,37 +6,33 @@ body {
 
 table.tabela-parcelas {
     width: 100%;
-    border-collapse: collapse; /* Essencial para tabelas limpas */
+    border-collapse: collapse; 
     background-color: #fff;
     border-radius: 8px;
-    overflow: hidden; /* Garante que o radius funcione nas pontas da tabela */
+    overflow: hidden; 
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 table.tabela-parcelas thead th {
-    background-color: #f1f1f1; /* Cor de fundo do cabeçalho */
+    background-color: #f1f1f1; 
     color: #333;
     text-align: left;
     padding: 15px;
     font-weight: 600;
 }
 
-/* ----------------------------------------------------------- */
-/* O SEGREDO DA ZEBRA ESTÁ AQUI:                              */
-/* Aplica cor de fundo apenas nas linhas PARES (even) do tbody */
-/* ----------------------------------------------------------- */
+
 table.tabela-parcelas tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Um cinza extremamente sutil */
+    background-color: #f4f4f4; 
 }
 
-/* Opcional: Efeito de hover para destacar a linha inteira */
 table.tabela-parcelas tbody tr:hover {
-    background-color: #f1f7ff; /* Um azul bem claro no hover */
+    background-color: #f1f7ff;
 }
 
 .filtros-container {
   display: flex;
-  justify-content: flex-end; /* Alinha à direita */
+  justify-content: flex-end; 
   gap: 10px;
   padding: 0 10px;
   height: 1px;
@@ -59,3 +55,16 @@ table.tabela-parcelas tbody tr:hover {
     height: max-content;
     top: -60px;
 }
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;
+}
+.modal-card {
+  background: white; padding: 25px; border-radius: 12px; width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+.form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
+.form-group input, .form-group select { padding: 10px; border: 1px solid #089181; border-radius: 8px; }
+.modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.btn-confirm { background: #2D5A81; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+.btn-cancel { background: white; border: 1px solid #ccc; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+

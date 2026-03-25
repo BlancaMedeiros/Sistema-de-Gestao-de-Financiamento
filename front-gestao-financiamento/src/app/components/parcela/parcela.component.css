@@ -41,3 +41,31 @@ td {
     color: #991B1B;          
     border-color: #FEE2E2;
 }
+
+.coluna-acao {
+  text-align: center; /* Centraliza o botão na coluna */
+  vertical-align: middle; /* Centraliza verticalmente na linha */
+  padding: 8px;
+}
+
+.botao-registrar {
+  background-color: transparent; /* Fundo transparente como na imagem */
+  border: 1px solid #ddd; /* Borda cinza suave */
+  border-radius: 8px; /* Cantos bem arredondados */
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #4a5568; /* Cor do texto cinza escura */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.botao-registrar:hover {
+  background-color: #f7fafc; /* Cor de fundo muito clara no hover */
+  border-color: #c0c4cc; /* Borda um pouco mais escura no hover */
+  transform: translateY(-1px); /* Efeito suave de levanta */
+}
+
+.botao-registrar:active {
+  transform: translateY(1px); /* Efeito de clique */
+}

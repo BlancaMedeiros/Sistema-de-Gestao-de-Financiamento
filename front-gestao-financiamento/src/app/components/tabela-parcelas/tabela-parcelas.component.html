@@ -30,12 +30,48 @@
             <th>Valor pago</th>
             <th>Data do pagamento</th>
             <th>Situação da parcela</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @for(parcela of parcelasFiltradas; track parcela.ID){
-            <tr app-parcela [parcela]="parcela">
+            <tr app-parcela [parcela]="parcela"
+            (registrarPagamento)="abrirModal($event)">
             </tr>
         }   
     </tbody>
 </table>
+
+<div class="modal-overlay" *ngIf="parcelaSelecionada">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3> Atualizar Parcela #{{ parcelaSelecionada.NumeroParcela }}</h3>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Data efetiva do pagamento</label>
+        <input type="date" [(ngModel)]="dadosUpdate.dataPagamento">
+      </div>
+
+      <div class="form-group">
+        <label>Valor efetivamente pago(R$)</label>
+        <input type="number" [(ngModel)]="dadosUpdate.valorPago">
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="dadosUpdate.situacao">
+          <option value="paga">Pago</option>
+          <option value="parcial">Parcial</option>
+          <option value="pendente">Pendente</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="fecharModal()">Cancelar</button>
+      <button class="btn-confirm" (click)="confirmarUpdate()">Confirmar alteração</button>
+    </div>
+  </div>
+</div>

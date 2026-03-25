@@ -3,27 +3,31 @@ import { ParcelasService } from '../../parcelas-service';
 import { ParcelasModel } from '../../models/parcelas.model';
 import { CommonModule } from '@angular/common'; 
 import { ParcelaComponent } from '../parcela/parcela.component';
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-tabela-parcelas',
   standalone: true,
-  imports: [CommonModule, ParcelaComponent],
+  imports: [CommonModule, ParcelaComponent, FormsModule], 
   templateUrl: './tabela-parcelas.component.html',
   styleUrl: './tabela-parcelas.component.css',
 })
 export class TabelaParcelasComponent implements OnInit {
   parcelas: ParcelasModel[] = [];
-  
-  // Novas variáveis para os filtros
   parcelasFiltradas: ParcelasModel[] = [];
   datasDisponiveis: string[] = [];
   
-  // Estado dos filtros
   filtroStatus: string = '';
   filtroNumero: string = '';
   filtroData: string = '';
 
-  // Usando o construtor conforme solicitado
+  parcelaSelecionada: ParcelasModel | null = null;
+  dadosUpdate = { 
+    dataPagamento: '', 
+    valorPago: 0, 
+    situacao: '' 
+  };
+
   constructor(
     private service: ParcelasService, 
     private cdr: ChangeDetectorRef
@@ -32,22 +36,18 @@ export class TabelaParcelasComponent implements OnInit {
   ngOnInit() {
     this.service.retornaParcelas().subscribe(parcelas => {
       this.parcelas = parcelas;
-      this.parcelasFiltradas = parcelas; // Inicialmente mostra tudo
-      
+      this.parcelasFiltradas = parcelas;
       this.gerarOpcoesDeData();
-      
-      console.log(this.parcelas);
       this.cdr.detectChanges();
     });
   }
 
-  // Extrai os meses únicos para o select
+
   private gerarOpcoesDeData() {
     const meses = this.parcelas.map(p => p.MesVencimento);
     this.datasDisponiveis = [...new Set(meses)];
   }
 
-  // Função que aplica todos os filtros juntos
   aplicarFiltros(event: any, tipo: string) {
     const valor = event.target.value;
 
@@ -59,10 +59,36 @@ export class TabelaParcelasComponent implements OnInit {
       const matchStatus = !this.filtroStatus || p.Situacao.toLowerCase() === this.filtroStatus.toLowerCase();
       const matchNumero = !this.filtroNumero || p.NumeroParcela.toString().includes(this.filtroNumero);
       const matchData = !this.filtroData || p.MesVencimento === this.filtroData;
-
       return matchStatus && matchNumero && matchData;
     });
 
-    this.cdr.detectChanges(); // Garante que a tela atualize após filtrar
+    this.cdr.detectChanges();
+  }
+
+  abrirModal(parcela: ParcelasModel) {
+    this.parcelaSelecionada = parcela;
+    
+    this.dadosUpdate = {
+      dataPagamento: new Date().toISOString().split('T')[0], 
+      valorPago: parcela.ProjecaoValor,
+      situacao: parcela.Situacao
+    };
+    
+    this.cdr.detectChanges();
+  }
+
+  fecharModal() {
+    this.parcelaSelecionada = null;
+    this.cdr.detectChanges();
+  }
+
+  confirmarUpdate() {
+  
+    console.log('Enviando para o banco:', {
+      id: this.parcelaSelecionada?.ID,
+      ...this.dadosUpdate
+    });
+    
+    this.fecharModal();
   }
 }

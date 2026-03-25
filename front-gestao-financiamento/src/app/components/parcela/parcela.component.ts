@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ParcelasModel } from '../../models/parcelas.model';
 import { CommonModule } from '@angular/common';
 
@@ -12,5 +12,15 @@ import { CommonModule } from '@angular/common';
 export class ParcelaComponent {
   @Input() parcela: ParcelasModel | undefined;
   
+  @Output() registrarPagamento = new EventEmitter<ParcelasModel>();
 
+  aoRegistrarPagamento() {
+    console.log('Registrando pagamento para a parcela ID:', this.parcela);
+    
+    // Emite o evento para o componente pai (tabela), passando os dados da parcela
+    this.registrarPagamento.emit(this.parcela);
+
+    // Aqui você pode adicionar lógica para abrir um modal de confirmação, por exemplo.
+  }
 }
+
