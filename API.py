@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import mysql.connector
 import os
@@ -43,7 +43,7 @@ def obter_resumo():
     query = """
     SELECT 
         SUM(ProjecaoValor) as total_financiado,
-        SUM(CASE WHEN Situacao = 'paga' THEN ProjecaoValor ELSE 0 END) as valor_pago,
+        SUM(CASE WHEN Situacao = 'paga' or Situacao = 'amortizado' THEN ValorPago ELSE 0 END) as valor_pago,
         MIN(CASE WHEN Situacao = 'pendente' THEN MesVencimento END) as proximo_vencimento
     FROM Parcelas
     """
@@ -68,5 +68,20 @@ def obter_resumo():
     conn.close()
     return jsonify(resumo)
 
+
+@app.route('/atualizar-parcela/<int:id>', methods=['PUT'])
+def atualizar_parcela(id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True) 
+
+    dados = request.json
+    # Lógica para atualizar no banco:
+    cursor.execute("UPDATE parcelas SET ValorPago=%s, DataPagamento=%s, Situacao=%s WHERE ID=%s", (dados['valorPago'], dados['dataPagamento'], dados['situacao'], id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return jsonify({"message": "Parcela atualizada com sucesso!"}), 200
+
 if __name__ == '__main__':
     app.run(debug=True)
+
