@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ParcelasService } from '../../parcelas-service';
+import { ParcelasService } from '../../services/parcelas-service';
 import { ParcelasModel } from '../../models/parcelas.model';
 import { CommonModule } from '@angular/common'; 
 import { ParcelaComponent } from '../parcela/parcela.component';
@@ -20,13 +20,6 @@ export class TabelaParcelasComponent implements OnInit {
   filtroStatus: string = '';
   filtroNumero: string = '';
   filtroData: string = '';
-
-  parcelaSelecionada: ParcelasModel | null = null;
-  dadosUpdate = { 
-    dataPagamento: '', 
-    valorPago: 0, 
-    situacao: '' 
-  };
 
   constructor(
     private service: ParcelasService, 
@@ -65,30 +58,5 @@ export class TabelaParcelasComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  abrirModal(parcela: ParcelasModel) {
-    this.parcelaSelecionada = parcela;
-    
-    this.dadosUpdate = {
-      dataPagamento: new Date().toISOString().split('T')[0], 
-      valorPago: parcela.ProjecaoValor,
-      situacao: parcela.Situacao
-    };
-    
-    this.cdr.detectChanges();
-  }
-
-  fecharModal() {
-    this.parcelaSelecionada = null;
-    this.cdr.detectChanges();
-  }
-
-  confirmarUpdate() {
   
-    console.log('Enviando para o banco:', {
-      id: this.parcelaSelecionada?.ID,
-      ...this.dadosUpdate
-    });
-    
-    this.fecharModal();
-  }
 }
