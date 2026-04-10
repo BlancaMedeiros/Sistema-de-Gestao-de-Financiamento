@@ -6,14 +6,50 @@
     <td>{{ parcela.ValorPago | currency:'BRL' }}</td>
     <td>{{ parcela.DataPagamento | date:'dd/MM/yyyy' }}</td>
     <td> 
-       <div class="status-badge" [ngClass]="parcela.Situacao | lowercase">
-            {{ parcela.Situacao }}
+       <div class="status-badge" [ngClass]="getSituacao()">
+            {{ getSituacao() }}
         </div>
     </td>
 }
 
 <td class="coluna-acao">
-  <button class="botao-registrar" (click)="aoRegistrarPagamento()">
+  <button class="botao-registrar" (click)="abrirModal()">
     Registrar Pagamento
   </button>
 </td>
+
+
+
+<div class="modal-overlay" *ngIf="modalEstaAberta">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3> Atualizar Parcela #{{ parcela.NumeroParcela }}</h3>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Data efetiva do pagamento</label>
+        <input type="date" [(ngModel)]="dadosUpdate.dataPagamento">
+      </div>
+
+      <div class="form-group">
+        <label>Valor efetivamente pago(R$)</label>
+        <input type="number" [(ngModel)]="dadosUpdate.valorPago">
+      </div>
+
+      <div class="form-group">
+        <label>Status</label>
+        <select [(ngModel)]="dadosUpdate.situacao">
+          <option value="paga">Pago</option>
+          <option value="amortizado">Amortizado</option>
+          <option value="pendente">Pendente</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="fecharModal()">Cancelar</button>
+      <button class="btn-confirm" (click)="confirmarUpdate()">Confirmar alteração</button>
+    </div>
+  </div>
+</div>
