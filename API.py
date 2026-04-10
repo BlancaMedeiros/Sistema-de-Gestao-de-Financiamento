@@ -41,11 +41,27 @@ def obter_resumo():
     cursor = conn.cursor(dictionary=True) 
     
     query = """
-    SELECT 
-        SUM(ProjecaoValor) as total_financiado,
-        SUM(CASE WHEN Situacao = 'paga' or Situacao = 'amortizado' THEN ValorPago ELSE 0 END) as valor_pago,
-        MIN(CASE WHEN Situacao = 'pendente' THEN MesVencimento END) as proximo_vencimento
-    FROM Parcelas
+        SELECT 
+            SUM(COALESCE(ValorPago, ProjecaoValor)) as total_financiado,
+            SUM(CASE WHEN Situacao IN ('paga', 'amortizado') THEN ValorPago ELSE 0 END) as valor_pago,
+            (
+                SELECT MesVencimento 
+                FROM Parcelas 
+                WHERE Situacao = 'pendente' 
+                ORDER BY NumeroParcela ASC 
+                LIMIT 1
+            ) as proximo_vencimento,
+            (SELECT 
+                COALESCE(
+                    (SELECT ValorPago FROM Parcelas WHERE Situacao = 'paga' ORDER BY NumeroParcela DESC LIMIT 1), 
+                    0
+                ) * (SELECT COUNT(*) FROM Parcelas WHERE Situacao = 'pendente') 
+                AS saldo_devedor
+            ) as saldo_devedor,
+            (SELECT COUNT(*) FROM Parcelas WHERE Situacao = 'pendente') as qtd_parcelas_pendentes,
+            (SELECT COUNT(*) FROM Parcelas WHERE Situacao in ('paga', 'amortizado')) as qtd_parcelas_pagas,
+            (SELECT COUNT(*) FROM Parcelas ) as qtd_parcelas
+        FROM Parcelas
     """
     
     cursor.execute(query)
@@ -54,14 +70,19 @@ def obter_resumo():
     total = float(resultado['total_financiado'] or 0)
     pago = float(resultado['valor_pago'] or 0)
     saldo_restante = total - pago
-    porcentagem_paga = (pago / total * 100) if total > 0 else 0
+
+    porcentagem_paga = float(resultado['qtd_parcelas_pagas'] or 0) / float(resultado['qtd_parcelas'] or 0) * 100
 
     resumo = {
         "total": total,
         "pago": pago,
         "saldo": saldo_restante,
         "proximo_vencimento": str(resultado['proximo_vencimento']) if resultado['proximo_vencimento'] else "Nenhum",
-        "porcentagem_paga": round(porcentagem_paga, 2)
+        "porcentagem_paga": round(porcentagem_paga, 2),
+        "saldo_devedor": float(resultado['saldo_devedor']),
+        "qtd_parcelas_pendentes": resultado['qtd_parcelas_pendentes'],
+        "qtd_parcelas_pagas": resultado['qtd_parcelas_pagas'],
+        "qtd_parcelas": resultado['qtd_parcelas']
     }
     
     cursor.close()

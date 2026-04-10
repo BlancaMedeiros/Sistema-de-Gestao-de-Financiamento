@@ -12,6 +12,15 @@
                 </div>
             </div>
             <div class="card">
+                <div class="icon-circle total">
+                    <span class="icon">📄</span>
+                </div>
+                <div class="card-info">
+                    <span>Parcelas Pagas / Pendentes / Total</span>
+                    <strong>{{ dadosResumo.qtd_parcelas_pagas }} / {{ dadosResumo.qtd_parcelas_pendentes }} / {{ dadosResumo.qtd_parcelas }}</strong>
+                </div>
+            </div>
+            <div class="card">
                 <div class="icon-circle pago">
                     <span class="icon">📊</span>
                 </div>
@@ -24,11 +33,20 @@
         <div class="row">
             <div class="card">
                 <div class="icon-circle saldo">
-                    <span class="icon">📉</span>
+                    <span class="icon">📈</span>
                 </div>
                 <div class="card-info">
-                    <span>Saldo Restante</span>
+                    <span>Saldo pendente</span>
                     <strong>{{ dadosResumo.saldo | currency:'BRL':'symbol':'1.2-2' }}</strong>
+                </div>
+            </div>
+            <div class="card">
+                <div class="icon-circle saldo">
+                    <span class="icon">💵</span>
+                </div>
+                <div class="card-info">
+                    <span>Saldo Devedor</span>
+                    <strong>{{ dadosResumo.saldo_devedor | currency:'BRL':'symbol':'1.2-2' }}</strong>
                 </div>
             </div>
             <div class="card">
